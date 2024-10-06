@@ -11,7 +11,7 @@ app.use(cors())
   
 
 
-
+app.use("/api/user",require("./route/user"))
 
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`)) 
