@@ -29,7 +29,16 @@ const UserSchema = new mongoose.Schema({
     login_count: {
         type: Number,
         default: 0
-    }
+    },
+    changeStateName:Boolean,
+    updateResult:Boolean,
+    updateVipNumber:Boolean,
+    deleteVipNumber:Boolean,
+    deleteState:Boolean,
+    blocked:Boolean
+
+
+    
 }, { timestamps: true });
 
 const User = mongoose.model("User", UserSchema);
