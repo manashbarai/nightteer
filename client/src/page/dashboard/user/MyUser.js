@@ -53,15 +53,14 @@ const MyUser = () => {
     e.preventDefault();
 
     try {
-      const createUser=await axios.post("http://localhost:8000/user/createuser",{
-        formData
-      })
-      if(createUser.status===200){
-        alert("sucess")
+      // Assuming formData contains fields like { name: '...', email: '...' }
+      const createUser = await axios.post("http://localhost:8000/user/createuser", formData);
+  
+      if (createUser.status === 200) {
+        alert("Success");
       }
-      
     } catch (error) {
-      
+      console.error("Error creating user:", error);
     }
     
   };
@@ -75,10 +74,10 @@ const MyUser = () => {
           animate={{ scale: 1 }} // Animate to scale 1
           transition={{ duration: 0.5 }} // Duration of the animation
         >
-          <button className='float-end px-3 rounded-tr bg-red-500  text-white font-semibold' onClick={() => setCreateUser(false)}> X </button>
+          <button className='float-end px-3 rounded-tr bg-slate-700  text-white font-semibold' onClick={() => setCreateUser(false)}> X </button>
 
 
-        <form onSubmit={handleSubmit} className="space-y-4 p-7 ">
+        <form onSubmit={handleSubmit} className="space-y-4 p-7  ">
           <h1 className='mt-5 text-center text-2xl'> Create New user </h1>
 
             <div>
