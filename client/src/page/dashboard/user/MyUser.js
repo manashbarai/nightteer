@@ -54,8 +54,7 @@ const MyUser = () => {
 
     try {
       const createUser=await axios.post("http://localhost:8000/user/createuser",{
-        name:formData.name,
-        email:formData.email
+        formData
       })
       if(createUser.status===200){
         alert("sucess")
