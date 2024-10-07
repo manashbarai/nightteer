@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import axios from 'axios';
 
 const MyUser = () => {
   // Sample users data
@@ -48,10 +49,22 @@ const MyUser = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Add your form submission logic here
+
+    try {
+      const createUser=await axios.post("http://localhost:8000/user/createuser",{
+        name:formData.name,
+        email:formData.email
+      })
+      if(createUser.status===200){
+        alert("sucess")
+      }
+      
+    } catch (error) {
+      
+    }
+    
   };
 
   return (
