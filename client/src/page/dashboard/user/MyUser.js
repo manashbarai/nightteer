@@ -63,10 +63,12 @@ const MyUser = () => {
           animate={{ scale: 1 }} // Animate to scale 1
           transition={{ duration: 0.5 }} // Duration of the animation
         >
-          <button className='float-end px-3 rounded-tr bg-red-500 ' onClick={() => setCreateUser(false)}> X </button>
+          <button className='float-end px-3 rounded-tr bg-red-500  text-white font-semibold' onClick={() => setCreateUser(false)}> X </button>
 
 
-          <form onSubmit={handleSubmit} className="space-y-4 p-5 ">
+        <form onSubmit={handleSubmit} className="space-y-4 p-7 ">
+          <h1 className='mt-5 text-center text-2xl'> Create New user </h1>
+
             <div>
               <label className="block font-medium">Name:</label>
               <input
