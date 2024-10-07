@@ -1,10 +1,21 @@
 import React from 'react'
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import Login from './page/Login';
+import SignUp from './page/SignUp';
+import Dashboard from './page/Dashboard';
 
 const App = () => {
   return (
-    <div className='text-center py-50 text-9xl text-red-900'>
-      Hello Budy
-    </div>
+    <Router>
+      <Routes>
+        <Route path='/login' element={<Login/>} />
+        <Route path='/signup' element={<SignUp/>} />
+        <Route path='/dashboard' element={<Dashboard/>} />
+       
+      </Routes>
+
+       
+    </Router>
   )
 }
 
