@@ -55,11 +55,16 @@ const MyUser = () => {
 
     try {
       // Assuming formData contains fields like { name: '...', email: '...' }
-      const createUser = await axios.post(`${process.env.REACT_APP_API_URL}user/createuser`, formData);
-
+      const createUser = await axios.post(`${process.env.REACT_APP_API_URL}api/user/createuser`, formData);
+      console.log(createUser);
+      
       if (createUser.status === 200) {
-        console.log(createUser.data);
-
+        alert("user created success fully")
+        const updatedUsersArray = [...createdUser.users, createUser.data];
+        
+        
+        updatedArray(updatedUsersArray,'UPDATE_USER')
+        setCreateUser(false)
 
       }
     } catch (error) {
@@ -84,7 +89,7 @@ const MyUser = () => {
 
   return (
     <>
-      {createUser && <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+      {createUser && <div className="fixed z-20 inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
         <motion.div
           className="bg-white w-[500px] h-[400px] rounded-lg shadow-lg"
           initial={{ scale: 0 }} // Initial scale at 0
@@ -222,7 +227,7 @@ const MyUser = () => {
 
                     <button
 
-                      className={`relative inline-flex items-center h-8 w-16 rounded-full transition-colors duration-300 focus:outline-none ${user.updateResult ? 'bg-green-500' : 'bg-gray-400'
+                      className={`relative inline-flex items-center h-8 w-16 rounded-full transition-colors duration-300 focus:outline-none ${user.updateResult ? 'bg-purple-500' : 'bg-gray-400'
                         }`}
                     >
                       <span
