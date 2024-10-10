@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
+import { useGlobalSkills } from '../../../context/skillContext';
 
 const MyUser = () => {
-  // Sample users data
+  const { isLoading, createdUser, updatedArray } = useGlobalSkills()
   const [createUser, setCreateUser] = useState(false)
-  const [users, setUsers] = useState([
-    { id: 1, name: 'John Doe', state: 'Active', vipNumber: 'VIP123', blocked: false },
-    { id: 2, name: 'Jane Smith', state: 'Pending', vipNumber: 'VIP456', blocked: true },
-    { id: 3, name: 'Mike Johnson', state: 'Inactive', vipNumber: 'VIP789', blocked: false },
-  ]);
+
 
   // Placeholder functions for actions
   const changeStateName = (id) => {
@@ -32,13 +29,17 @@ const MyUser = () => {
     alert(`Delete state for user with ID: ${id}`);
   };
 
-  const toggleBlocked = (id) => {
-    const updatedUsers = users.map((user) =>
-      user.id === id ? { ...user, blocked: !user.blocked } : user
-    );
-    setUsers(updatedUsers);
-  };
+  // const toggleBlocked = (id) => {
+  //   const updatedUsers = users.map((user) =>
+  //     user.id === id ? { ...user, blocked: !user.blocked } : user
+  //   );
+  //   setUsers(updatedUsers);
+  // };
+  const [isOn, setIsOn] = useState(false);
 
+  const handleToggle = () => {
+    setIsOn(!isOn);
+  };
 
   const [formData, setFormData] = useState({
     name: '',
@@ -49,21 +50,37 @@ const MyUser = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       // Assuming formData contains fields like { name: '...', email: '...' }
-      const createUser = await axios.post("http://localhost:8000/user/createuser", formData);
-  
+      const createUser = await axios.post(`${process.env.REACT_APP_API_URL}user/createuser`, formData);
+
       if (createUser.status === 200) {
-        alert("Success");
+        console.log(createUser.data);
+
+
       }
     } catch (error) {
       console.error("Error creating user:", error);
     }
-    
+
   };
+  const handlePermission = async (id, useCase, value) => {
+
+    try {
+      const data = {
+        useCase: value,
+
+      }
+      const updateUser = await axios.put(`${process.env.REACT_APP_API_URL}api/user/update/${id}`, { data })
+
+    } catch (error) {
+
+    }
+
+  }
 
   return (
     <>
@@ -77,8 +94,8 @@ const MyUser = () => {
           <button className='float-end px-3 rounded-tr bg-slate-700  text-white font-semibold' onClick={() => setCreateUser(false)}> X </button>
 
 
-        <form onSubmit={handleSubmit} className="space-y-4 p-7  ">
-          <h1 className='mt-5 text-center text-2xl'> Create New user </h1>
+          <form onSubmit={handleSubmit} className="space-y-4 p-7  ">
+            <h1 className='mt-5 text-center text-2xl'> Create New user </h1>
 
             <div>
               <label className="block font-medium">Name:</label>
@@ -125,71 +142,263 @@ const MyUser = () => {
           <thead>
             <tr className="bg-gray-100">
               <th className="border px-4 py-2">Name</th>
-              <th className="border px-4 py-2">Change State Name</th>
-              <th className="border px-4 py-2">Update Result</th>
-              <th className="border px-4 py-2">Update VIP Number</th>
-              <th className="border px-4 py-2">Delete VIP Number</th>
-              <th className="border px-4 py-2">Delete State</th>
+              <th className="border px-4 py-2">Change State <br /> Permission</th>
+              <th className="border px-4 py-2"> Result Update <br /> Permission </th>
+              <th className="border px-4 py-2">VIP Number Update <br /> Permission</th>
+              <th className="border px-4 py-2">VIP Number Delete <br /> Permission</th>
+              <th className="border px-4 py-2"> State Delete <br /> Permission</th>
               <th className="border px-4 py-2">Blocked</th>
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
+            {isLoading ? <>Loading...</> : createdUser && createdUser.users.map((user, index) => (
               <tr key={user.id} className="text-center">
                 <td className="border px-4 py-2">{user.name}</td>
                 <td className="border px-4 py-2">
                   <button
-                    className="bg-blue-500 text-white px-2 py-1 rounded"
-                    onClick={() => changeStateName(user.id)}
+                    onClick={async () => {
+                      try {
+                       
+                        const updateUser = await axios.put(
+                          `http://localhost:8000/api/user/update/${user._id}`,
+                          { changeStateName: user.changeStateName ? false : true }
+                        );
+
+                        if (updateUser.status === 200) {
+                          const userIndex = createdUser.users.findIndex((person) => person._id === user._id);
+
+                          // If the user is found, update the value in the array
+                          if (userIndex !== -1) {
+                            createdUser.users[userIndex] = updateUser.data; 
+                            updatedArray(createdUser.users,"UPDATE_USER");
+                          }
+                        }
+
+                      } catch (error) {
+                        console.error(error); // Handle error
+                      }
+                    }}
                   >
-                    Change State
+
+                    <button
+
+                      className={`relative inline-flex items-center h-8 w-16 rounded-full transition-colors duration-300 focus:outline-none ${user.changeStateName ? 'bg-green-500' : 'bg-gray-400'
+                        }`}
+                    >
+                      <span
+                        className={`absolute left-1 top-1 w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${user.changeStateName ? 'translate-x-8' : ''
+                          }`}
+                      />
+
+                    </button>
+
                   </button>
                 </td>
                 <td className="border px-4 py-2">
-                  <button
-                    className="bg-green-500 text-white px-2 py-1 rounded"
-                    onClick={() => updateResult(user.id)}
+                <button
+                    onClick={async () => {
+                      try {
+                       
+                        const updateUser = await axios.put(
+                          `http://localhost:8000/api/user/update/${user._id}`,
+                          { updateResult: user.updateResult ? false : true }
+                        );
+
+                        if (updateUser.status === 200) {
+                          const userIndex = createdUser.users.findIndex((person) => person._id === user._id);
+
+                          // If the user is found, update the value in the array
+                          if (userIndex !== -1) {
+                            createdUser.users[userIndex] = updateUser.data; 
+                            updatedArray(createdUser.users,"UPDATE_USER");
+                          }
+                        }
+
+                      } catch (error) {
+                        console.error(error); // Handle error
+                      }
+                    }}
                   >
-                    Update Result
+
+                    <button
+
+                      className={`relative inline-flex items-center h-8 w-16 rounded-full transition-colors duration-300 focus:outline-none ${user.updateResult ? 'bg-green-500' : 'bg-gray-400'
+                        }`}
+                    >
+                      <span
+                        className={`absolute left-1 top-1 w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${user.updateResult ? 'translate-x-8' : ''
+                          }`}
+                      />
+
+                    </button>
+
                   </button>
                 </td>
                 <td className="border px-4 py-2">
-                  <button
-                    className="bg-yellow-500 text-white px-2 py-1 rounded"
-                    onClick={() => updateVipNumber(user.id)}
+                <button
+                    onClick={async () => {
+                      try {
+                       
+                        const updateUser = await axios.put(
+                          `http://localhost:8000/api/user/update/${user._id}`,
+                          { updateVipNumber: user.updateVipNumber ? false : true }
+                        );
+
+                        if (updateUser.status === 200) {
+                          const userIndex = createdUser.users.findIndex((person) => person._id === user._id);
+
+                          // If the user is found, update the value in the array
+                          if (userIndex !== -1) {
+                            createdUser.users[userIndex] = updateUser.data; 
+                            updatedArray(createdUser.users,"UPDATE_USER");
+                          }
+                        }
+
+                      } catch (error) {
+                        console.error(error); // Handle error
+                      }
+                    }}
                   >
-                    Update VIP
+
+                    <button
+
+                      className={`relative inline-flex items-center h-8 w-16 rounded-full transition-colors duration-300 focus:outline-none ${user.updateVipNumber ? 'bg-orange-500' : 'bg-gray-400'
+                        }`}
+                    >
+                      <span
+                        className={`absolute left-1 top-1 w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${user.updateVipNumber ? 'translate-x-8' : ''
+                          }`}
+                      />
+
+                    </button>
+
                   </button>
                 </td>
                 <td className="border px-4 py-2">
-                  <button
-                    className="bg-red-500 text-white px-2 py-1 rounded"
-                    onClick={() => deleteVipNumber(user.id)}
+                <button
+                    onClick={async () => {
+                      try {
+                       
+                        const updateUser = await axios.put(
+                          `http://localhost:8000/api/user/update/${user._id}`,
+                          { deleteVipNumber: user.deleteVipNumber ? false : true }
+                        );
+
+                        if (updateUser.status === 200) {
+                          const userIndex = createdUser.users.findIndex((person) => person._id === user._id);
+
+                          // If the user is found, update the value in the array
+                          if (userIndex !== -1) {
+                            createdUser.users[userIndex] = updateUser.data; 
+                            updatedArray(createdUser.users,"UPDATE_USER");
+                          }
+                        }
+
+                      } catch (error) {
+                        console.error(error); // Handle error
+                      }
+                    }}
                   >
-                    Delete VIP
+
+                    <button
+
+                      className={`relative inline-flex items-center h-8 w-16 rounded-full transition-colors duration-300 focus:outline-none ${user.deleteVipNumber ? 'bg-red-500' : 'bg-gray-400'
+                        }`}
+                    >
+                      <span
+                        className={`absolute left-1 top-1 w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${user.deleteVipNumber ? 'translate-x-8' : ''
+                          }`}
+                      />
+
+                    </button>
+
                   </button>
                 </td>
                 <td className="border px-4 py-2">
-                  <button
-                    className="bg-red-500 text-white px-2 py-1 rounded"
-                    onClick={() => deleteState(user.id)}
+                <button
+                    onClick={async () => {
+                      try {
+                       
+                        const updateUser = await axios.put(
+                          `http://localhost:8000/api/user/update/${user._id}`,
+                          { deleteState: user.deleteState ? false : true }
+                        );
+
+                        if (updateUser.status === 200) {
+                          const userIndex = createdUser.users.findIndex((person) => person._id === user._id);
+
+                          // If the user is found, update the value in the array
+                          if (userIndex !== -1) {
+                            createdUser.users[userIndex] = updateUser.data; 
+                            updatedArray(createdUser.users,"UPDATE_USER");
+                          }
+                        }
+
+                      } catch (error) {
+                        console.error(error); // Handle error
+                      }
+                    }}
                   >
-                    Delete State
+
+                    <button
+
+                      className={`relative inline-flex items-center h-8 w-16 rounded-full transition-colors duration-300 focus:outline-none ${user.deleteState ? 'bg-red-800' : 'bg-gray-400'
+                        }`}
+                    >
+                      <span
+                        className={`absolute left-1 top-1 w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${user.deleteState ? 'translate-x-8' : ''
+                          }`}
+                      />
+
+                    </button>
+
                   </button>
                 </td>
                 <td className="border px-4 py-2">
-                  <button
-                    className={`px-2 py-1 rounded ${user.blocked ? 'bg-red-500 text-white' : 'bg-gray-500 text-white'
-                      }`}
-                    onClick={() => toggleBlocked(user.id)}
+                <button
+                    onClick={async () => {
+                      try {
+                       
+                        const updateUser = await axios.put(
+                          `http://localhost:8000/api/user/update/${user._id}`,
+                          { blocked: user.blocked ? false : true }
+                        );
+
+                        if (updateUser.status === 200) {
+                          const userIndex = createdUser.users.findIndex((person) => person._id === user._id);
+
+                          // If the user is found, update the value in the array
+                          if (userIndex !== -1) {
+                            createdUser.users[userIndex] = updateUser.data; 
+                            updatedArray(createdUser.users,"UPDATE_USER");
+                          }
+                        }
+
+                      } catch (error) {
+                        console.error(error); // Handle error
+                      }
+                    }}
                   >
-                    {user.blocked ? 'Unblock' : 'Block'}
+
+                    <button
+
+                      className={`relative inline-flex items-center h-8 w-16 rounded-full transition-colors duration-300 focus:outline-none ${user.blocked ? 'bg-red-300' : 'bg-gray-400'
+                        }`}
+                    >
+                      <span
+                        className={`absolute left-1 top-1 w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${user.blocked ? 'translate-x-8' : ''
+                          }`}
+                      />
+
+                    </button>
+
                   </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+
       </div>
     </>
   );
