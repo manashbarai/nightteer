@@ -10,6 +10,14 @@ const stateSchema = new mongoose.Schema({
         unique: true,
         required: true,
     },
+    color:{
+        rotate:Number,
+        backgroundColor1:String,
+        backgroundColor2:String,
+        borderColor:String,
+        textColor:String
+
+    },
     time: {
         firstResult: String,
         secondResult: String

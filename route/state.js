@@ -5,8 +5,9 @@ const router = express.Router();
 // Create (POST)
 router.post("/", async (req, res) => {
     try {
-        const { name, id, time } = req.body;
-
+        const { name, id } = req.body;
+        console.log(req.body);
+        
         // Check if the state with the same name or id already exists
         const existingState = await State.findOne({ $or: [{ name }, { id }] });
 
@@ -17,7 +18,7 @@ router.post("/", async (req, res) => {
         }
 
         // If not, create a new state
-        const newState = new State({ name, id, time });
+        const newState = new State(req.body);
         const savedState = await newState.save();
         res.status(201).json(savedState);
 
@@ -40,7 +41,7 @@ router.get("/", async (req, res) => {
 // Read (GET single state by ID)
 router.get("/:id", async (req, res) => {
     try {
-        const state = await State.findOne({ id: req.params.id });
+        const state = await State.findById(req.params.id);
         if (!state) {
             return res.status(404).json({ message: "State not found" });
         }
@@ -49,14 +50,13 @@ router.get("/:id", async (req, res) => {
         res.status(500).json({ message: "Error retrieving state", error });
     }
 });
-
 // Update (PUT)
 router.put("/:id", async (req, res) => {
+    
     try {
-        const { name, time } = req.body;
-        const updatedState = await State.findOneAndUpdate(
-            { id: req.params.id },
-            { name, time },
+        const updatedState = await State.findByIdAndUpdate(
+           req.params.id,
+            req.body, // correctly passing the data to update
             { new: true } // return the updated document
         );
         if (!updatedState) {
@@ -71,7 +71,7 @@ router.put("/:id", async (req, res) => {
 // Delete (DELETE)
 router.delete("/:id", async (req, res) => {
     try {
-        const deletedState = await State.findOneAndDelete({ id: req.params.id });
+        const deletedState = await State.findByIdAndDelete(req.params.id);
         if (!deletedState) {
             return res.status(404).json({ message: "State not found" });
         }
