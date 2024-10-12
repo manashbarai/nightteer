@@ -44,7 +44,7 @@ router.post("/createuser", async (req, res) => {
     try {
         const user = new User({ name, email, password: randomPassword, role: 2 });
         const saveUser = await user.save();
-        res.status(201).json(saveUser);
+        res.json(saveUser);
     } catch (error) {
         if (error.code === 11000 && error.keyPattern.email) {
             return res.status(400).json({

@@ -35,6 +35,9 @@ const Dashboard = () => {
         {
           option==='user' && <User/>
         }
+         {
+          option==='state' && <User/>
+        }
 
 
       </div>

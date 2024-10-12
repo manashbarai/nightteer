@@ -47,9 +47,21 @@ const AppProvider = ({ children }) => {
         dispatch({ type: "LOADING" })
         try {
             const leadsLimit = await axios.get(url)
-            console.log(leadsLimit);
+            
             
             dispatch({ type: "CREATED_USER", payload: leadsLimit.data })
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+    const getState = async (url) => {
+        dispatch({ type: "LOADING" })
+        try {
+            const state = await axios.get(url)
+            
+            
+            dispatch({ type: "STATE", payload: leadsLimit.data })
         } catch (error) {
             console.log(error);
             
@@ -63,6 +75,7 @@ const AppProvider = ({ children }) => {
     useEffect(() => {
         
         getCreatedUser(`${process.env.REACT_APP_API_URL}api/user/all?role=2&page=1&limit=10`)
+        getState(`${process.env.REACT_APP_API_URL}api/state`)
 
 
 

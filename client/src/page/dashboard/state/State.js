@@ -2,9 +2,19 @@ import React from 'react'
 
 const State = () => {
   return (
-    <div>
+    
+        <div className=' flex flex-col gap-5 '   >
+
+
+
+            
+
+          
+
+        </div>
+
       
-    </div>
+    
   )
 }
 

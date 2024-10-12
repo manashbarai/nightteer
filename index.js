@@ -12,6 +12,7 @@ app.use(cors())
 
 
 app.use("/api/user",require("./route/user"))
+app.use("/api/state",require("./route/state"))
 
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`)) 

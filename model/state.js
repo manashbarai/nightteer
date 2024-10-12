@@ -3,14 +3,18 @@ const mongoose = require("mongoose");
 const stateSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true, 
+        required: true,
     },
     id: {
         type: Number,
         unique: true,
         required: true,
     },
-}, { timestamps: true }); 
+    time: {
+        firstResult: String,
+        secondResult: String
+    }
+}, { timestamps: true });
 
 
 const State = mongoose.model("State", stateSchema);
