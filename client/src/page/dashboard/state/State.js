@@ -1,5 +1,6 @@
 import React from 'react'
 import { useGlobalSkills } from '../../../context/skillContext'
+import axios from 'axios';
 
 const State = () => {
 
@@ -11,10 +12,15 @@ const State = () => {
         // You can redirect to an edit form or open a modal for editing
       };
       
-      const handleDelete = (id) => {
-        // Implement logic to delete the item with the given id
-        console.log(`Deleting item with id: ${id}`);
-        // You can add a confirmation modal or directly remove the item
+      const handleDelete = async(id) => {
+       try {
+        const deleteState=await axios.delete(`${process.env.REACT_APP_API_URL}api/state/${id}`)
+        if(deleteState.status===2000){
+            alert("de;leted")
+        }
+       } catch (error) {
+        
+       }
       };
       
   return (
@@ -49,7 +55,7 @@ const State = () => {
                     <div className="flex justify-between mt-4">
                       {/* Edit Button */}
                       <button 
-                        onClick={() => handleEdit(state.id)} 
+                        onClick={() => handleEdit(state._id)} 
                         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                       >
                         Edit
@@ -57,7 +63,7 @@ const State = () => {
                   
                       {/* Delete Button */}
                       <button 
-                        onClick={() => handleDelete(state.id)} 
+                        onClick={() => handleDelete(state._id)} 
                         className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
                       >
                         Delete
