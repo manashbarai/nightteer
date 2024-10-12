@@ -14,6 +14,12 @@ const State = () => {
                 {state && state.map((state,index)=>{
                     return <div style={{background:state.color.backgroundColor,border:`1px solid ${state.color.borderColor}`,color:state.color.textColor}} className='py-3 px-5 w-[300px] rounded'  >
                         <h2 className='text-2xl capitalize' > {state.name}  </h2>
+
+                        <div style={{border:`1px solid ${state.color.borderColor}`}}  className='p-2 my-2'>
+                            <p> First Result Time : <span className='text-black font-semibold'> {state.time.firstResult}</span> </p>
+                            <p> Second Result Time  :<span className='text-black font-semibold'>{state.time.secondResult} </span> </p>
+
+                        </div>
                             
                     </div>
 
