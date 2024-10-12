@@ -18,6 +18,16 @@ const SkillLists = (state, action) => {
                 createdUser: {page: page,total: total,pages: pages, users: users}
             }
 
+            case 'STATE':
+
+           
+
+            return {
+                ...state,
+                isLoading: false,
+                state: action.payload
+            }
+
             case 'UPDATE_USER':
 
            

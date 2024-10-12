@@ -7,6 +7,7 @@ const AppContext = createContext();
 const initialState = {
     isLoading: false,
     isError: false,
+    state:[],
     createdUser:{
         page:"",
         total:"",
@@ -61,7 +62,7 @@ const AppProvider = ({ children }) => {
             const state = await axios.get(url)
             
             
-            dispatch({ type: "STATE", payload: leadsLimit.data })
+            dispatch({ type: "STATE", payload: state.data })
         } catch (error) {
             console.log(error);
             

@@ -5,6 +5,7 @@
 import React, { useState } from 'react'
 import MyUser from './dashboard/user/MyUser'
 import User from './dashboard/user/User'
+import State from './dashboard/state/State'
 
 const Dashboard = () => {
 
@@ -36,7 +37,7 @@ const Dashboard = () => {
           option==='user' && <User/>
         }
          {
-          option==='state' && <User/>
+          option==='state' && <State/>
         }
 
 
