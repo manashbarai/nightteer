@@ -21,7 +21,8 @@ const SkillLists = (state, action) => {
             case 'STATE':
 
            
-
+            console.log("action.payload",action.payload);
+            
             return {
                 ...state,
                 isLoading: false,

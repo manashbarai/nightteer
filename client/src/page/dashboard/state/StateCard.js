@@ -1,6 +1,10 @@
 import React from 'react'
+import { FaEdit } from "react-icons/fa";
+import { MdDeleteSweep } from "react-icons/md";
 
-const StateCard = ({ formData }) => {
+const StateCard = ({ formData,onEdit,onDelete }) => {
+    console.log(formData);
+    
     return (
         <div>
             <div
@@ -25,6 +29,13 @@ const StateCard = ({ formData }) => {
                         <span className="font-bold">{formData.time.secondResult || "Time"}</span>
                     </p>
                 </div>
+
+                {onEdit && onDelete && <div className='flex gap-3'>
+
+                {onEdit && <button onClick={()=>onEdit(formData)} className='active:scale-110'  >   <FaEdit color='green' size={25} />
+                </button>}
+                {onDelete && <button onClick={()=>onDelete(formData._id)} className='active:scale-110' >  <MdDeleteSweep color='red' size={25}/>
+                </button>}</div>}
             </div>
         </div>
     )

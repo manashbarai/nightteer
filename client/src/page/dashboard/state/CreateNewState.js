@@ -1,23 +1,11 @@
 import { useState } from "react";
 import StateCard from "./StateCard";
 import axios from "axios";
+import { useGlobalSkills } from "../../../context/skillContext";
 
-const CreateNewState = ({ toggleOpenCreateState }) => {
-    const [formData, setFormData] = useState({
-        name: "",
-        id: "",
-        color: {
-            rotate: 45, // Default rotation in degrees
-            backgroundColor1: "#ffffff", // default color 1
-            backgroundColor2: "#000000", // default color 2
-            textColor: "#000000", // default to black
-            borderColor: "#000000", // default to black
-        },
-        time: {
-            firstResult: "",
-            secondResult: "",
-        },
-    });
+const CreateNewState = ({ toggleOpenCreateState, data }) => {
+    const { updatedArray, state } = useGlobalSkills()
+    const [formData, setFormData] = useState(data);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -50,17 +38,20 @@ const CreateNewState = ({ toggleOpenCreateState }) => {
 
     const submitForm = async () => {
         const { name, id, time, color } = formData;
-    
+        const edit = state.find(s => s._id === data._id)
+        console.log("edit", edit);
+
+
         // Convert id and rotate to numbers
         const numericId = Number(id);
         const numericRotate = Number(color.rotate);
-    
+
         // Check if the required fields are filled
         if (!name || !numericId || !time.firstResult || !time.secondResult) {
             alert("Please fill in all fields (Name, ID, First Result, and Second Result) before submitting.");
             return;
         }
-    
+
         // Prepare the formData with the updated numeric values
         const formDataToSubmit = {
             ...formData,
@@ -70,26 +61,77 @@ const CreateNewState = ({ toggleOpenCreateState }) => {
                 rotate: numericRotate, // Ensure rotate is a number
             },
         };
-    
-       
-    
-        try {
-            // Submit the form data to your backend using Axios
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}api/state`, formDataToSubmit);
-    
-            // Check if the response status is within the 2xx range
-            if (response.status===201) {
-                alert("Form submitted successfully!");
-                toggleOpenCreateState();
-            } else {
+
+
+
+
+        // Submit the form data to your backend using Axios
+        if (edit !== undefined) {
+
+
+
+
+
+
+
+            try {
+                const response = await axios.put(`${process.env.REACT_APP_API_URL}api/state/${edit._id}`, formDataToSubmit);
+
+                // Check if the response status is within the 2xx range
+                if (response.status === 200) {
+
+
+                    // Clone the original array to avoid direct mutation
+                    const newState = [...state];
+
+                    // Find the index and update the item using splice
+                    const index = newState.findIndex((s) => s._id === edit._id);
+                    newState.splice(index, 1, response.data);
+
+                    // Update the state with the new array
+                    updatedArray(newState, 'STATE');
+                    toggleOpenCreateState();
+                } else {
+                    alert("Failed to submit the form.");
+                }
+            } catch (error) {
                 alert("Failed to submit the form.");
             }
-        } catch (error) {
-            console.error("Error submitting the form:", error);
-            alert("An error occurred during form submission.");
+        } else {
+
+            const idFind = state.find(s => s.id === parseInt(formData.id))
+
+            const nameFind = state.find(s => s.name === formData.name)
+
+            if (idFind) {
+                alert("choose unique id")
+                return;
+            }
+            if (nameFind) {
+                alert("change unique name ")
+                return;
+            }
+
+            try {
+                const response = await axios.post(`${process.env.REACT_APP_API_URL}api/state`, formDataToSubmit);
+
+                // Check if the response status is within the 2xx range
+                if (response.status === 201) {
+                    const insertIntoState = [...state, response.data]
+
+
+                    updatedArray(insertIntoState, 'STATE')
+                    toggleOpenCreateState();
+                } else {
+                    alert("Failed to submit the form.");
+                }
+            } catch (error) {
+                alert("Failed to submit the form.");
+            }
         }
-    };
-    
+    }
+
+
 
     return (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50">
@@ -256,7 +298,7 @@ const CreateNewState = ({ toggleOpenCreateState }) => {
 
                 {/* Right Side Output */}
                 <div className="flex flex-col gap-4">
-                   <StateCard formData={formData} />
+                    <StateCard formData={formData} />
                     <button
                         onClick={submitForm}
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
