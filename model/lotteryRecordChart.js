@@ -2,21 +2,17 @@ const mongoose = require("mongoose")
 
 const lotteryRecordChartSchema = new mongoose.Schema({
 
+    id: Number,
     year: String,
     month: Number,
     resultList: [
         {
-            day:Number,
-            DateTime: Number,
-            result:[
+            day: Number,
+            result_1: String,
+            result_2: String,
 
-                {
-                    id:Number,
-                    result_1:String,
-                    result_2:String,
 
-                }
-            ]
+
         }
     ]
 

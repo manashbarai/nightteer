@@ -52,7 +52,8 @@ router.get("/:id", async (req, res) => {
 });
 // Update (PUT)
 router.put("/:id", async (req, res) => {
-    
+        console.log("Hello budy");
+        
     try {
         const updatedState = await State.findByIdAndUpdate(
            req.params.id,
@@ -73,6 +74,8 @@ router.delete("/:id", async (req, res) => {
     try {
         const deletedState = await State.findByIdAndDelete(req.params.id);
         if (!deletedState) {
+            
+
             return res.status(404).json({ message: "State not found" });
         }
         res.status(200).json({ message: "State deleted successfully" });

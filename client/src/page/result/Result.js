@@ -89,21 +89,21 @@ const Result = () => {
         console.log('data', finalData);
         
         
-        // try {
-        //     const res = await axios.post(
-        //         `${process.env.REACT_APP_API}result`,
-        //         data
-        //     );
-        //     if (res.status === 200) {
-        //         alert("Record updated successfully");
-        //         setFormData(initialState); // Reset form data
-        //         setDirectUploadData(createInitialStateDirectUpload(state)); // Reset direct input data
-        //         setPost("");
-        //     }
-        // } catch (error) {
-        //     console.error(error);
-        //     alert("Something went wrong");
-        // }
+        try {
+            const res = await axios.post(
+                `${process.env.REACT_APP_API_URL}api/result/single`,
+                finalData
+            );
+            if (res.status === 200) {
+                alert("Record updated successfully");
+                setFormData(initialState); // Reset form data
+                setDirectUploadData(createInitialStateDirectUpload(state)); // Reset direct input data
+                setPost("");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Something went wrong");
+        }
     };
 
     return (
