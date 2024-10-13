@@ -19,7 +19,7 @@ const Dashboard = () => {
       <div className='w-[300px] h-[100vh] bg-slate-800 flex flex-col justify-between'  >
 
         <ul className='p-5 flex flex-col gap-3'>
-          <li className=' bg-gray-700 border rounded text-white'>  <button onClick={() => setOption("dashboard")} className='py-3 px-7'>Dash Board</button>  </li>
+          
           <li className=' bg-gray-700 border rounded text-white'>  <button onClick={() => setOption("state")} className='py-3 px-7'>Manage State</button>  </li>
           <li className=' bg-gray-700 border rounded text-white'>  <button onClick={() => setOption("result")} className='py-3 px-7'>Result</button>  </li>
           <li className=' bg-gray-700 border rounded text-white'>  <button onClick={() => setOption("user")} className='py-3 px-7'>User</button>  </li>
