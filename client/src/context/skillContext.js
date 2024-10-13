@@ -8,6 +8,8 @@ const initialState = {
     isLoading: false,
     isError: false,
     state:[],
+    result_Month:[],
+    result_day:[],
     createdUser:{
         page:"",
         total:"",
