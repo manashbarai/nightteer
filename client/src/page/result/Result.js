@@ -109,62 +109,18 @@ const Result = () => {
     return (
         <>
             {post === "excelUpload" && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60">
-                    <form onSubmit={handleSubmit} className="p-5 rounded-lg shadow-md w-1/2 bg-black">
-                        <button
-                            className="absolute top-2 right-2 text-red-500"
+                <div className="fixed inset-0  flex items-center justify-center  bg-black bg-opacity-60">
+                        
+                   <div className="text-9xl text-center bg-white w-80 h-72 absolute top-50">
+                    
+                   <button
+                            className="absolute top-2 right-2 text-sm text-red-500"
                             onClick={() => setPost("")}
                         >
                             X
                         </button>
-                        <div className="mb-4">
-                            <label htmlFor="year" className="block text-gray-700">Year</label>
-                            <input
-                                type="text"
-                                id="year"
-                                name="year"
-                                value={formData.year}
-                                // onChange={handleChange}
-                                className="border rounded w-full py-2 px-3"
-                                
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="month" className="block text-gray-700">Month</label>
-                            <select
-                                id="month"
-                                name="month"
-                                value={formData.month}
-                                // onChange={handleChange}
-                                className="border rounded w-full py-2 px-3"
-                                
-                            >
-                                <option value="">Select Month</option>
-                                {Array.from({ length: 12 }, (_, i) => (
-                                    <option key={i} value={i + 1}>
-                                        {new Date(0, i).toLocaleString('default', { month: 'long' })}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="file" className="block text-gray-700">Upload File</label>
-                            <input
-                                type="file"
-                                id="file"
-                                name="file"
-                                onChange={handleFile}
-                                className="border rounded w-full py-2 px-3"
-                                
-                            />
-                        </div>
-                        <button
-                            type="submit"
-                            className="bg-blue-500 text-white py-2 px-4 rounded w-full hover:bg-blue-600"
-                        >
-                            Submit
-                        </button>
-                    </form>
+                    
+                    Wait..</div>
                 </div>
             )}
 
@@ -234,20 +190,22 @@ const Result = () => {
                 </div>
             )}
 
-            <div className="flex gap-4">
-                <button
+            <div className="flex gap-4 ml-5 my-5">
+                {/* <button
                     className="border rounded px-4 py-2 text-blue-600 border-blue-600 hover:bg-blue-600 hover:text-white"
                     onClick={() => setPost("excelUpload")}
                 >
                     Upload Excel
-                </button>
+                </button> */}
                 <button
                     className="border rounded px-4 py-2 text-blue-600 border-blue-600 hover:bg-blue-600 hover:text-white"
                     onClick={() => setPost("directUpload")}
                 >
-                    Direct Upload
+                     Upload and Update Result
                 </button>
             </div>
+
+
         </>
     );
 };
