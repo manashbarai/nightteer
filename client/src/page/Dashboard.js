@@ -7,6 +7,7 @@ import MyUser from './dashboard/user/MyUser'
 import User from './dashboard/user/User'
 import State from './dashboard/state/State'
 import Result from './result/Result'
+import ResultPage from './result/Result'
 
 const Dashboard = () => {
 
