@@ -4,17 +4,17 @@ import * as XLSX from 'xlsx';
 import { useGlobalSkills } from "../../context/skillContext";
 
 const Result = () => {
-    const { state } = useGlobalSkills(); // Assuming state provides input fields for 'resultList'
+    const { isLoading, state, result_Month } = useGlobalSkills(); // Assuming state provides input fields for 'resultList'
 
     const initialState = {
         year: "",
         month: "",
-        day:"",
+        day: "",
     };
 
     const createInitialStateDirectUpload = (dataArray) => {
         return dataArray.map(item => ({
-            
+
             id: item.id,
             result_1: "",
             result_2: ""
@@ -26,9 +26,9 @@ const Result = () => {
     const [directUploadData, setDirectUploadData] = useState(createInitialStateDirectUpload(state));
     const [excelData, setExcelData] = useState(null);
     const [excelFileName, setExcelFileName] = useState("");
-  
-    
-   
+
+
+
     const handleDirectUploadChange = (index, field, value) => {
         setDirectUploadData(prevData =>
             prevData.map((item, i) =>
@@ -73,7 +73,7 @@ const Result = () => {
                 result_2: item.result_2,
             },
         }));
-        
+
         // Use map instead of forEach to add the year, month, and day
         const finalData = directUploadData.map((item) => ({
             id: item.id,
@@ -85,10 +85,10 @@ const Result = () => {
                 result_2: item.result_2,
             },
         }));
-        
+
         console.log('data', finalData);
-        
-        
+
+
         try {
             const res = await axios.post(
                 `${process.env.REACT_APP_API_URL}api/result/single`,
@@ -110,17 +110,17 @@ const Result = () => {
         <>
             {post === "excelUpload" && (
                 <div className="fixed inset-0  flex items-center justify-center  bg-black bg-opacity-60">
-                        
-                   <div className="text-9xl text-center bg-white w-80 h-72 absolute top-50">
-                    
-                   <button
+
+                    <div className="text-9xl text-center bg-white w-80 h-72 absolute top-50">
+
+                        <button
                             className="absolute top-2 right-2 text-sm text-red-500"
                             onClick={() => setPost("")}
                         >
                             X
                         </button>
-                    
-                    Wait..</div>
+
+                        Wait..</div>
                 </div>
             )}
 
@@ -136,46 +136,46 @@ const Result = () => {
                         <div className="flex gap-4 ">
                             <label htmlFor="date " >Select Date : </label>
 
-                            <input id="date" type="date" className="border px-5 mb-2" onChange={(e)=>{
-                               setFormData((prev) => ({
-                                ...prev,
-                                year: e.target.value.split("-")[0],
-                                month: e.target.value.split("-")[1],
-                                day: e.target.value.split("-")[2],
-                            }));
-                               
-                                
+                            <input id="date" type="date" className="border px-5 mb-2" onChange={(e) => {
+                                setFormData((prev) => ({
+                                    ...prev,
+                                    year: e.target.value.split("-")[0],
+                                    month: e.target.value.split("-")[1],
+                                    day: e.target.value.split("-")[2],
+                                }));
+
+
                             }} />
-                            </div>
+                        </div>
                         <div className="flex flex-wrap gap-2">
 
 
                             {directUploadData.map((item, index) => (
                                 <div key={index} className="flex flex-col border rounded p-4 w-56" >
-                                    <label className="block text-gray-700">{state.find(s=>s.id===item.id) && state.find(s=>s.id===item.id).name }</label>
-                                   <div className="flex gap-3 ">
+                                    <label className="block text-gray-700">{state.find(s => s.id === item.id) && state.find(s => s.id === item.id).name}</label>
+                                    <div className="flex gap-3 ">
 
-                                   
-                                    <input
-                                        type="number"
-                                        value={item.result_1}
-                                        onChange={(e) =>
-                                            handleDirectUploadChange(index, "result_1", e.target.value)
-                                        }
-                                        className="border flex-1 rounded w-full py-1 px-2 "
-                                        placeholder="Result 1"
-                                        
-                                    />
-                                    <input
-                                        type="number"
-                                        value={item.result_2}
-                                        onChange={(e) =>
-                                            handleDirectUploadChange(index, "result_2", e.target.value)
-                                        }
-                                        className="border flex-1 rounded w-full py-1 px-2"
-                                        placeholder="Result 2"
-                                        
-                                    />
+
+                                        <input
+                                            type="number"
+                                            value={item.result_1}
+                                            onChange={(e) =>
+                                                handleDirectUploadChange(index, "result_1", e.target.value)
+                                            }
+                                            className="border flex-1 rounded w-full py-1 px-2 "
+                                            placeholder="Result 1"
+
+                                        />
+                                        <input
+                                            type="number"
+                                            value={item.result_2}
+                                            onChange={(e) =>
+                                                handleDirectUploadChange(index, "result_2", e.target.value)
+                                            }
+                                            className="border flex-1 rounded w-full py-1 px-2"
+                                            placeholder="Result 2"
+
+                                        />
                                     </div>
                                 </div>
                             ))}
@@ -201,9 +201,56 @@ const Result = () => {
                     className="border rounded px-4 py-2 text-blue-600 border-blue-600 hover:bg-blue-600 hover:text-white"
                     onClick={() => setPost("directUpload")}
                 >
-                     Upload and Update Result
+                    Upload and Update Result
                 </button>
             </div>
+
+
+            {state && state.map((s, i) => {
+                return (
+                    <div key={s.id}> {/* Use a unique key for each mapped element */}
+                        {result_Month && result_Month.map((r, j) => {
+                            // Check if the IDs match
+                            if (r.id === s.id) {
+                                return (
+                                    <div key={r.id}>
+                                        {r.resultList
+                                            .sort((a, b) => Number(a.day) - Number(b.day)) // Sort days numerically
+                                            .map((rs, k) => {
+                                                const data = {
+                                                    name: s.name,
+                                                    id: s.id,
+                                                    color: {
+                                                        rotate: s.color.rotate,
+                                                        backgroundColor1: s.color.backgroundColor1,
+                                                        backgroundColor2: s.color.backgroundColor2,
+                                                        textColor: s.color.textColor,
+                                                        borderColor: s.color.borderColor,
+                                                    },
+                                                    time: {
+                                                        firstResult: s.time.firstResult,
+                                                        secondResult: s.time.secondResult,
+                                                    },
+                                                    day: rs.day,
+                                                    result_1: rs.result_1,
+                                                    result_2: rs.result_2,
+                                                };
+
+                                                return (
+                                                    <div key={k}>
+                                                       Name :{s.name} , Day: {data.day}, Result 1: {data.result_1}, Result 2: {data.result_2}
+                                                    </div>
+                                                );
+                                            })}
+                                    </div>
+                                ); // Render when IDs match
+                            }
+                            return null; // Return null if no match to prevent rendering unnecessary elements
+                        })}
+                    </div>
+                );
+            })}
+
 
 
         </>

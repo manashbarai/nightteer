@@ -1,6 +1,7 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useReducer } from "react";
 import reducer from '../reducer/skillsReducer'
+import getCurrentMonth from "../util/getCurrentMOnth";
 const AppContext = createContext();
 
 
@@ -62,9 +63,18 @@ const AppProvider = ({ children }) => {
         dispatch({ type: "LOADING" })
         try {
             const state = await axios.get(url)
-            
-            
             dispatch({ type: "STATE", payload: state.data })
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+
+    const getResultMonthAccording = async (url) => {
+        dispatch({ type: "LOADING" })
+        try {
+            const result = await axios.get(url)
+            dispatch({ type: "MONTH_RESULT", payload: result.data })
         } catch (error) {
             console.log(error);
             
@@ -76,9 +86,11 @@ const AppProvider = ({ children }) => {
 
 
     useEffect(() => {
-        
+        const currentMonth=getCurrentMonth()
+      
         getCreatedUser(`${process.env.REACT_APP_API_URL}api/user/all?role=2&page=1&limit=10`)
         getState(`${process.env.REACT_APP_API_URL}api/state`)
+        getResultMonthAccording(`${process.env.REACT_APP_API_URL}api/result/month/2024/${currentMonth}`)
 
 
 

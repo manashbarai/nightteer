@@ -21,14 +21,24 @@ const SkillLists = (state, action) => {
             case 'STATE':
 
            
-            console.log("action.payload",action.payload);
+           
             
             return {
                 ...state,
                 isLoading: false,
                 state: action.payload
             }
+            case 'MONTH_RESULT':
 
+           
+           
+            
+            return {
+                ...state,
+                isLoading: false,
+                result_Month: action.payload
+            }
+            
             case 'UPDATE_USER':
 
            
