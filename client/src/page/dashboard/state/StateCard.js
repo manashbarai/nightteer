@@ -23,12 +23,12 @@ const StateCard = ({ formData,onEdit,onDelete,resultData }) => {
                     <p>
                         First Result Time:{" "}
                         <span className="font-bold">{formData.time.firstResult || "Time"}</span>
-                        {resultData && <> <br/> {resultData.result_1}  </>}
+                        {resultData && <> <br/> {resultData.result_1 ?resultData.result_1 :"Wait ..."}  </>}
                     </p>
                     <p>
                         Second Result Time:{" "}
                         <span className="font-bold">{formData.time.secondResult || "Time"}</span> 
-                        {resultData && <> <br/> {resultData.result_2}  </>}
+                        {resultData && <> <br/> {resultData.result_2 ?resultData.result_2 :"Wait ..."}  </>}
                     </p>
                 </div>
 

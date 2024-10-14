@@ -86,26 +86,39 @@ router.get("/month/:year/:month", async (req, res) => {
 });
 router.post("/month/day/:year/:month/:day", async (req, res) => {
     try {
-        const { ids } = req.body; // Get array of IDs from body
-        const day = Number(req.params.day); // Get the day from route parameter
+        const { ids } = req.body; // Get array of IDs from the request body
+        const day = Number(req.params.day); // Get the day from route parameters
+        const year = Number(req.params.year); // Get the year
+        const month = Number(req.params.month); // Get the month
         
-
         const promises = ids.map(async (id) => {
             const record = await LotteryRecordChart.findOne({
                 id: id,
-                year:Number(req.params.year),
-                month: Number(req.params.month)
+                year: year,
+                month: month,
             });
 
             if (record) {
+                // Find the result for the specific day
                 const filteredResult = record.resultList.find(r => r.day === day);
-                return { id: record.id, resultList: filteredResult ? [filteredResult] : [] };
+
+                // If found, return the single result object
+                if (filteredResult) {
+                    return {
+                        id: record.id,
+                        day: filteredResult.day,
+                        result_1: filteredResult.result_1,
+                        result_2: filteredResult.result_2,
+                        _id: filteredResult._id, // Include the MongoDB ObjectId if needed
+                    };
+                }
             }
-            return { id, resultList: [] }; // If no record found, return empty resultList
+            // If no matching record or result found, return a default message
+            return { id, message: "No result found for this day." };
         });
 
-        const results = await Promise.all(promises);
-        res.json(results);
+        const results = await Promise.all(promises); // Wait for all promises to resolve
+        res.json(results); // Send the results
     } catch (error) {
         res.status(500).json({ message: "Error retrieving records", error });
     }
