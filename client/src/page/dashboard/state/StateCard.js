@@ -2,7 +2,7 @@ import React from 'react'
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteSweep } from "react-icons/md";
 
-const StateCard = ({ formData,onEdit,onDelete }) => {
+const StateCard = ({ formData,onEdit,onDelete,resultData }) => {
     console.log(formData);
     
     return (
@@ -23,10 +23,12 @@ const StateCard = ({ formData,onEdit,onDelete }) => {
                     <p>
                         First Result Time:{" "}
                         <span className="font-bold">{formData.time.firstResult || "Time"}</span>
+                        {resultData && <> <br/> {resultData.result_1}  </>}
                     </p>
                     <p>
                         Second Result Time:{" "}
-                        <span className="font-bold">{formData.time.secondResult || "Time"}</span>
+                        <span className="font-bold">{formData.time.secondResult || "Time"}</span> 
+                        {resultData && <> <br/> {resultData.result_2}  </>}
                     </p>
                 </div>
 
