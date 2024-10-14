@@ -1,9 +1,10 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useReducer } from "react";
 import reducer from '../reducer/skillsReducer'
-import getCurrentMonth from "../util/getCurrentMOnth";
+import {getCurrentMonth,getCurrentDay} from "../util/getCurrentMOnth";
 const AppContext = createContext();
-
+const currentMonth=getCurrentMonth()
+const currentDay=getCurrentDay()
 
 const initialState = {
     isLoading: false,
@@ -25,28 +26,22 @@ const AppProvider = ({ children }) => {
 
 
     const [state, dispatch] = useReducer(reducer, initialState)
-    const getCurrentDayResult = async (url) => {
-        
+    
+   
+    const getResultDayAccording = async (url,state) => {
         dispatch({ type: "LOADING" })
-        try {
-            const leadsLimit = await axios.get(url)
-            dispatch({ type: "CURRENT_DAY_SATTA", payload: leadsLimit.data })
-        } catch (error) {
+        const ids = state.map(({ id }) => Number(id));
 
+        try {
+            const result = await axios.post(url,{ids})
+            dispatch({ type: "DAY_RESULT", payload: result.data })
+        } catch (error) {
+            console.log(error);
+            
         }
     }
-   
-   
 
-    const getAllResult = async (url) => {
-        dispatch({ type: "LOADING" })
-        try {
-            const leadsLimit = await axios.get(url)
-            dispatch({ type: "ALL_RESULT_SATTA", payload: leadsLimit.data })
-        } catch (error) {
-
-        }
-    }
+  
     const getCreatedUser = async (url) => {
         dispatch({ type: "LOADING" })
         try {
@@ -64,6 +59,9 @@ const AppProvider = ({ children }) => {
         try {
             const state = await axios.get(url)
             dispatch({ type: "STATE", payload: state.data })
+           if( state.status===200)getResultDayAccording(`${process.env.REACT_APP_API_URL}api/result/month/day/2024/${currentMonth}/${currentDay}`,state.data)
+
+           
         } catch (error) {
             console.log(error);
             
@@ -80,13 +78,15 @@ const AppProvider = ({ children }) => {
             
         }
     }
+   
 
    
     const updatedArray = (arry, type) => dispatch({ type: type, payload: arry })
 
 
     useEffect(() => {
-        const currentMonth=getCurrentMonth()
+       
+      
       
         getCreatedUser(`${process.env.REACT_APP_API_URL}api/user/all?role=2&page=1&limit=10`)
         getState(`${process.env.REACT_APP_API_URL}api/state`)
