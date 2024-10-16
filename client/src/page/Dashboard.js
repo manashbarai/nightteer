@@ -11,7 +11,7 @@ import ResultPage from './result/Result'
 
 const Dashboard = () => {
 
-  const [option, setOption] = useState("dashboard")
+  const [option, setOption] = useState("state")
 
 
   return (
