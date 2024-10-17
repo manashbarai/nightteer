@@ -17,3 +17,29 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.dashBoard-bg{
+
+  background: linear-gradient(180deg, rgba(247, 251, 255, 0.88) .13%, rgba(217, 234, 255, 0.88) 153.35%);
+  box-shadow: 0 4px 16px 0 #bcdaff52;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 400;
+  font-style: normal;
+  position: relative;
+  overflow: hidden;
+}
+.dashBoard-bg::after{
+  background: conic-gradient(from 145deg at 50% 50%, #98a181 0deg, #8ec4ff 82.8000015deg, #b9b2ff 176.40000343deg, #ecc4dc 261.00000858deg, #a78068 1turn);
+  border-radius: 50%;
+  content: "";
+  filter: blur(40px);
+  height: 439.443px;
+  left: 0;
+  mix-blend-mode: color;
+  position: absolute;
+  top: 170px;
+  transform: rotate(-117.73deg);
+  width: inherit;
+}
+
+/* <canvas id="gradient-canvas" data-transition-in="true" width="1536" height="600" class="isLoaded"></canvas> */
