@@ -30,10 +30,10 @@ const Dashboard = () => {
 
     
     <div className='flex'>
-      <div className='bg-gradient'>
+      <div className='bg-gradient sticky top-0 h-[100vh]'>
 
      
-      <div className="w-[300px] h-[100vh] dashBoard-bg flex flex-col justify-between">
+      <div className="w-[300px] h-[100vh] dashBoard-bg flex flex-col justify-between ">
       {/* Top Menu */}
       <ul className="p-5 flex flex-col gap-0">
         <li className="font-semibold rounded text-black text-xl  mb-3">

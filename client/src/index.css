@@ -41,5 +41,7 @@ code {
   transform: rotate(-117.73deg);
   width: inherit;
 }
-
+.text-robot{
+  font-family: "IBM Plex Mono", monospace;
+}
 /* <canvas id="gradient-canvas" data-transition-in="true" width="1536" height="600" class="isLoaded"></canvas> */

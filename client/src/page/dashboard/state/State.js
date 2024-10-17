@@ -14,10 +14,10 @@ const State = () => {
         id: "",
         color: {
             rotate: 45, 
-            backgroundColor1: "#ffffff", 
-            backgroundColor2: "#000000", 
+            backgroundColor1: "#B5FBFE", 
+            backgroundColor2: "#fff", 
             textColor: "#000000", 
-            borderColor: "#000000", 
+            borderColor: "#3F5C5D", 
         },
         time: {
             firstResult: "",
@@ -30,10 +30,10 @@ const State = () => {
         id: "",
         color: {
             rotate: 45, 
-            backgroundColor1: "#ffffff", 
-            backgroundColor2: "#000000", 
+            backgroundColor1: "#B5FBFE", 
+            backgroundColor2: "#fff", 
             textColor: "#000000", 
-            borderColor: "#000000", 
+            borderColor: "#3F5C5D", 
         },
         time: {
             firstResult: "",
@@ -70,8 +70,9 @@ const State = () => {
 
     return (
         <>
-            <h3 className='text-3xl my-3 ml-5'>Manage Your State</h3>
-            <div className='flex gap-5 ml-5 flex-wrap'>
+            <h3 className='text-3xl my-3 mx-28 pb-3 border-b-2 font-semibold text-robot'> <i>Manage Your State</i> </h3> 
+            
+            <div className='grid grid-col-1 lg:grid-cols-2 gap-5 px-28'>
                 {isLoading ? (
                     <h4>Loading ... </h4>
                 ) : (
@@ -86,7 +87,7 @@ const State = () => {
                 )}
 
                 <button 
-                    className="border flex justify-center items-center border-gray-600 rounded shadow-2xl bg-slate-600 text-white w-[300px] h-[220px]" 
+                    className="border mt-11 flex justify-center items-center border-gray-600 rounded shadow-2xl bg-slate-600 text-white  h-[248px]" 
                     onClick={() => toggleOpenCreateState('blank')}
                 >
                     <FaPlus size={100} />

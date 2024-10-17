@@ -135,7 +135,7 @@ const CreateNewState = ({ toggleOpenCreateState, data }) => {
 
     return (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50">
-            <div className="bg-white p-7 rounded-lg shadow-lg w-[800px] flex gap-10 relative items-center">
+            <div className="bg-white p-7 rounded-lg shadow-lg w-3/4 flex gap-10 relative items-center">
                 <button
                     className="absolute top-0 end-0 w-[27px] h-[27px] bg-black rounded-tr-md text-white"
                     onClick={toggleOpenCreateState}
@@ -297,7 +297,7 @@ const CreateNewState = ({ toggleOpenCreateState, data }) => {
                 </div>
 
                 {/* Right Side Output */}
-                <div className="flex flex-col gap-4">
+                <div className="flex w-1/2 flex-col gap-4">
                     <StateCard formData={formData} />
                     <button
                         onClick={submitForm}
