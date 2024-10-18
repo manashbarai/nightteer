@@ -39,7 +39,6 @@ const CreateNewState = ({ toggleOpenCreateState, data }) => {
     const submitForm = async () => {
         const { name, id, time, color } = formData;
         const edit = state.find(s => s._id === data._id)
-        console.log("edit", edit);
 
 
         // Convert id and rotate to numbers
@@ -190,6 +189,7 @@ const CreateNewState = ({ toggleOpenCreateState, data }) => {
                                     className="w-full p-2 border rounded"
                                 />
                             </div>
+                            
                         </div>
 
                         {/* Gradient Background Color Inputs */}
@@ -293,6 +293,17 @@ const CreateNewState = ({ toggleOpenCreateState, data }) => {
                                 />
                             </div>
                         </div>
+                        <div>
+                                <label className="block text-gray-700 mb-2">Description</label>
+                                <textarea
+                                    type="text"
+                                    name="description"
+                                    placeholder="Write About This State"
+                                    value={formData.description}
+                                    onChange={handleChange}
+                                    className="w-full p-2 border rounded"
+                                />
+                            </div>
                     </form>
                 </div>
 

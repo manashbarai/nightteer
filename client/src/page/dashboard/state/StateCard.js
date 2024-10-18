@@ -47,14 +47,19 @@ const StateCard = ({ formData, onEdit, onDelete, resultData }) => {
                     </table>
 
 
+
                     {onEdit && onDelete && <div className='flex gap-3'>
 
                         {onEdit && <button onClick={() => onEdit(formData)} className='active:scale-110'  >   <FaEdit color='green' size={25} />
                         </button>}
                         {onDelete && <button onClick={() => onDelete(formData._id)} className='active:scale-110' >  <MdDeleteSweep color='red' size={25} />
                         </button>}</div>}
+
                 </div>
             </div>
+                <p>
+                    {formData.description}
+                </p>
         </div>
     )
 }

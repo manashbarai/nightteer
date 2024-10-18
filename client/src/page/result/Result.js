@@ -7,12 +7,11 @@ import StateCard from "../dashboard/state/StateCard";
 const Result = () => {
     const { isLoading, state, result_Month } = useGlobalSkills(); // Assuming state provides input fields for 'resultList'
     const [states,setStates]=useState(state)
-    console.log("result_Month",result_Month);
 
     const initialState = {
-        year: "",
-        month: "",
-        day: "",
+        day: new Date().getDate(),
+        month: new Date().getMonth()+1,
+        year : new Date().getFullYear(),
     };
 
     const createInitialStateDirectUpload = (dataArray) => {
@@ -137,8 +136,13 @@ const Result = () => {
                         </button>
                         <div className="flex gap-4 ">
                             <label htmlFor="date " >Select Date : </label>
+                            <div className="w-[220px]  mb-2 relative">
+                                <div className="w-[140px] absolute top-1 start-5 bg-white text-black">
+                                    {formData.day} /  {formData.month} / {formData.year} 
+                                </div>
 
-                            <input id="date" type="date" className="border px-5 mb-2" onChange={(e) => {
+                            
+                            <input id="date" type="date"  value={`${formData.year}-${formData.month}-${formData.day}`} className="border w-full px-5 h-[32px]" onChange={(e) => {
                                 setFormData((prev) => ({
                                     ...prev,
                                     year: e.target.value.split("-")[0],
@@ -148,12 +152,13 @@ const Result = () => {
 
 
                             }} />
+                            </div>
                         </div>
                         <div className="flex flex-wrap gap-2">
 
 
                             {directUploadData.map((item, index) => (
-                                <div key={index} className="flex flex-col border rounded p-4 w-56" >
+                                <div key={index} className="flex flex-col bg-sky-50 border border-sky-100 rounded p-4 w-56" >
                                     <label className="block text-gray-700">{state.find(s => s.id === item.id) && state.find(s => s.id === item.id).name}</label>
                                     <div className="flex gap-3 ">
 
@@ -184,7 +189,7 @@ const Result = () => {
                         </div>
                         <button
                             type="submit"
-                            className="bg-blue-500 text-white py-2 px-4 rounded w-full hover:bg-blue-600 mt-4"
+                            className="bg-sky-50 border border-sky-100  py-2 px-4 rounded w-full hover:bg-blue-600 mt-4"
                         >
                             Submit
                         </button>

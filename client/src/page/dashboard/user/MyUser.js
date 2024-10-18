@@ -145,7 +145,7 @@ const MyUser = () => {
 
         <table className="min-w-full table-auto border-collapse border border-gray-300">
           <thead>
-            <tr className="bg-gray-100 text-zinc-700">
+            <tr className="bg-sky-50 text-zinc-700">
               <th className="border px-4 py-2">Name</th>
               <th className="border px-4 py-2">Change State <br /> Permission</th>
               <th className="border px-4 py-2"> Result Update <br /> Permission </th>

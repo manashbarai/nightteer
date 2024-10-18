@@ -21,7 +21,8 @@ const stateSchema = new mongoose.Schema({
     time: {
         firstResult: String,
         secondResult: String
-    }
+    },
+    description:String
 }, { timestamps: true });
 
 

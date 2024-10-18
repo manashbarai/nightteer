@@ -39,6 +39,7 @@ const State = () => {
             firstResult: "",
             secondResult: "",
         },
+        description:""
     };
 
     const toggleOpenCreateState = (dataType) => {
