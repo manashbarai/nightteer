@@ -26,14 +26,14 @@ const SkillLists = (state, action) => {
                 state: action.payload
             }
             case 'DAY_RESULT':
-
+            
+            
             return {
                 ...state,
                 isLoading: false,
                 result_day: action.payload
             }
             case 'MONTH_RESULT':
-
             return {
                 ...state,
                 isLoading: false,

@@ -2,9 +2,12 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import * as XLSX from 'xlsx';
 import { useGlobalSkills } from "../../context/skillContext";
+import StateCard from "../dashboard/state/StateCard";
 
 const Result = () => {
     const { isLoading, state, result_Month } = useGlobalSkills(); // Assuming state provides input fields for 'resultList'
+    const [states,setStates]=useState(state)
+    console.log("result_Month",result_Month);
 
     const initialState = {
         year: "",
@@ -86,7 +89,6 @@ const Result = () => {
             },
         }));
 
-        console.log('data', finalData);
 
 
         try {
@@ -107,7 +109,7 @@ const Result = () => {
     };
 
     return (
-        <>
+        <div className="px-28">
             {post === "excelUpload" && (
                 <div className="fixed inset-0  flex items-center justify-center  bg-black bg-opacity-60">
 
@@ -190,70 +192,108 @@ const Result = () => {
                 </div>
             )}
 
-            <div className="flex gap-4 ml-5 my-5">
+            <div className="flex border-b pb-7 justify-between   my-5">
                 {/* <button
                     className="border rounded px-4 py-2 text-blue-600 border-blue-600 hover:bg-blue-600 hover:text-white"
                     onClick={() => setPost("excelUpload")}
                 >
                     Upload Excel
                 </button> */}
+
+                <div className="flex gap-2">
+
+                    <button style={{
+                        background: `#fff`,
+                        color: '#000',
+                        border: `1px solid #000`,
+                    }}
+                        className="px-7 rounded"
+                        onClick={()=>setStates(state)}
+                    >
+                        All
+                    </button>
+                    {state && state.map((s, i) => {
+                        return <button style={{
+                            background: `linear-gradient(${s.color.rotate}deg, ${s.color.backgroundColor1}, ${s.color.backgroundColor2})`,
+                            color: s.color.textColor,
+                            border: `1px solid ${s.color.borderColor}`,
+                        }}
+                            className="px-7 rounded"
+                            onClick={() => {
+                                const sta = state.find(st => st.id === s.id); // Find the matching object
+                                if (sta) {
+                                    setStates([sta]); // Wrap the object in an array like [{}]
+                                }
+                            }}
+                        >
+                            {s.name}
+                        </button>
+                    })}
+                </div>
                 <button
-                    className="border rounded px-4 py-2 text-blue-600 border-blue-600 hover:bg-blue-600 hover:text-white"
+                    className="border rounded px-7 py-2 text-blue-600 border-blue-600 hover:bg-blue-600 hover:text-white"
                     onClick={() => setPost("directUpload")}
                 >
                     Upload and Update Result
                 </button>
             </div>
 
+            <div className=" gap-5 mt-16">
+    {states &&
+        states.map((s) => {
+            const matchingMonth = result_Month.find((r) => r.id === s.id); // Find matching month by ID
+            console.log("matchingMonth",matchingMonth);
+            
+            if (!matchingMonth) return null; // Skip if no matching month is found
 
-            {state && state.map((s, i) => {
-                return (
-                    <div key={s.id}> {/* Use a unique key for each mapped element */}
-                        {result_Month && result_Month.map((r, j) => {
-                            // Check if the IDs match
-                            if (r.id === s.id) {
-                                return (
-                                    <div key={r.id}>
-                                        {r.resultList
-                                            .sort((a, b) => Number(a.day) - Number(b.day)) // Sort days numerically
-                                            .map((rs, k) => {
-                                                const data = {
-                                                    name: s.name,
-                                                    id: s.id,
-                                                    color: {
-                                                        rotate: s.color.rotate,
-                                                        backgroundColor1: s.color.backgroundColor1,
-                                                        backgroundColor2: s.color.backgroundColor2,
-                                                        textColor: s.color.textColor,
-                                                        borderColor: s.color.borderColor,
-                                                    },
-                                                    time: {
-                                                        firstResult: s.time.firstResult,
-                                                        secondResult: s.time.secondResult,
-                                                    },
-                                                    day: rs.day,
-                                                    result_1: rs.result_1,
-                                                    result_2: rs.result_2,
-                                                };
+            return (
+                <div key={s.id} className="w-full bg-white grid grid-cols-1 lg:grid-cols-2 gap-5 my-4">
+                    
 
-                                                return (
-                                                    <div key={k}>
-                                                       Name :{s.name} , Day: {data.day}, Result 1: {data.result_1}, Result 2: {data.result_2}
-                                                    </div>
-                                                );
-                                            })}
-                                    </div>
-                                ); // Render when IDs match
-                            }
-                            return null; // Return null if no match to prevent rendering unnecessary elements
+                    {matchingMonth.resultList
+                        .sort((a, b) => Number(a.day) - Number(b.day)) // Sort days numerically
+                        .map((rs, k) => {
+                            console.log("rs",rs);
+                            
+                            const data = {
+                                name: s.name,
+                                id: s.id,
+                                color: {
+                                    rotate: s.color.rotate,
+                                    backgroundColor1: s.color.backgroundColor1,
+                                    backgroundColor2: s.color.backgroundColor2,
+                                    textColor: s.color.textColor,
+                                    borderColor: s.color.borderColor,
+                                },
+                                time: {
+                                    firstResult: s.time.firstResult,
+                                    secondResult: s.time.secondResult,
+                                },
+                            };
+                            const resultData = {
+                                day: rs.day,
+                                result_1: rs.result_1,
+                                result_2: rs.result_2,
+                                month:matchingMonth.month,
+                                year:matchingMonth.year
+                            };
+                           
+                            
+                            return (
+                                <StateCard
+                                    key={k}
+                                    formData={data}
+                                    resultData={resultData}
+                                />
+                            );
                         })}
-                    </div>
-                );
-            })}
+                </div>
+            );
+        })}
+</div>
 
 
-
-        </>
+        </div>
     );
 };
 

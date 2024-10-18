@@ -29,7 +29,10 @@ const HomePage = () => {
                 const resultData={
                     day:r.day,
                     result_1:r.result_1,
-                    result_2:r.result_2
+                    result_2:r.result_2,
+                    
+                    month:r.month,
+                    year:r.year
                 }
                 return <StateCard formData={data} key={resultData.day}  resultData={resultData} />
             })}

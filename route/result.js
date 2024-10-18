@@ -97,7 +97,8 @@ router.post("/month/day/:year/:month/:day", async (req, res) => {
                 year: year,
                 month: month,
             });
-
+            
+            
             if (record) {
                 // Find the result for the specific day
                 const filteredResult = record.resultList.find(r => r.day === day);
@@ -107,6 +108,8 @@ router.post("/month/day/:year/:month/:day", async (req, res) => {
                     return {
                         id: record.id,
                         day: filteredResult.day,
+                        month:record.month,
+                        year:record.year,
                         result_1: filteredResult.result_1,
                         result_2: filteredResult.result_2,
                         _id: filteredResult._id, // Include the MongoDB ObjectId if needed
