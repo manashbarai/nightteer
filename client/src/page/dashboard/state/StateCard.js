@@ -57,7 +57,7 @@ const StateCard = ({ formData, onEdit, onDelete, resultData }) => {
 
                 </div>
             </div>
-                <p>
+                <p className='mt-3  text-center'>
                     {formData.description}
                 </p>
         </div>

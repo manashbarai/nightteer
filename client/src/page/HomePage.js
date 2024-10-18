@@ -1,13 +1,17 @@
 import React from 'react'
 import { useGlobalSkills } from '../context/skillContext'
 import StateCard from './dashboard/state/StateCard'
+import Footer from '../components/Footer'
+import Navbar from '../components/Navbar'
 
 const HomePage = () => {
 
     const { state, result_day } = useGlobalSkills()
 
     return (
-        <div className=' my-5  px-28 flex gap-3 flex-wrap'>
+        <>
+        <Navbar/>
+        <div className=' px-28 grid grid-cols-1 gap-20 my-10 '>
             {result_day && state && result_day.map((r, i) => {
                 const singleState=state.find(s=>s.id===r.id)
                 const data = {
@@ -23,7 +27,8 @@ const HomePage = () => {
                     time: {
                         firstResult: singleState.time.firstResult,
                         secondResult: singleState.time.secondResult,
-                    }
+                    },
+                    description:singleState.description
 
                 }
                 const resultData={
@@ -34,10 +39,14 @@ const HomePage = () => {
                     month:r.month,
                     year:r.year
                 }
-                return <StateCard formData={data} key={resultData.day}  resultData={resultData} />
+                return <div className='w-3/4 mx-auto'>
+                    <StateCard formData={data} key={resultData.day}  resultData={resultData} />
+                </div>
             })}
 
         </div>
+<Footer/>
+        </>
     )
 }
 
