@@ -89,7 +89,7 @@ const MyUser = () => {
 
   return (
     <>
-      {createUser && <div className="fixed z-20 inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+      {createUser && <div className="fixed  z-20 inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
         <motion.div
           className="bg-white w-[500px] h-[400px] rounded-lg shadow-lg"
           initial={{ scale: 0 }} // Initial scale at 0
@@ -136,16 +136,16 @@ const MyUser = () => {
         </motion.div>
       </div>}
 
-      <div className="p-6">
+      <div className="">
         <div className='flex gap-3'>
 
-          <h2 className="text-xl font-bold mb-4">User List</h2>
-          <button className="text-xl  border-l pl-3 font-bold mb-4" onClick={() => setCreateUser(true)}  > Create User  </button>
+          <h2 className="text-xl text-zinc-800 font-bold mb-4">User List</h2>
+          <button className="text-xl text-zinc-800  border-l pl-3 font-bold mb-4" onClick={() => setCreateUser(true)}  > Create User  </button>
         </div>
 
         <table className="min-w-full table-auto border-collapse border border-gray-300">
           <thead>
-            <tr className="bg-gray-100">
+            <tr className="bg-gray-100 text-zinc-700">
               <th className="border px-4 py-2">Name</th>
               <th className="border px-4 py-2">Change State <br /> Permission</th>
               <th className="border px-4 py-2"> Result Update <br /> Permission </th>
