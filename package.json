@@ -2,13 +2,15 @@
   "name": "oli-lottery",
   "version": "1.0.0",
   "main": "index.js",
+  "description": "Oli Lottery Backend",
+  "author": "Your Name",
+  "license": "ISC",
+  "keywords": ["lottery", "express", "node", "api"],
   "scripts": {
+    "start": "node api/index.js",     
+    "dev": "nodemon api/index.js",    
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
@@ -16,7 +18,12 @@
     "express": "^4.21.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.7.0",
-    "nodemon": "^3.1.7",
     "react-icons": "^5.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  },
+  "engines": {
+    "node": ">=16.x"
   }
 }
