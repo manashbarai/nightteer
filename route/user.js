@@ -56,7 +56,7 @@ router.post("/createuser", async (req, res) => {
 
 router.put('/update/:id', async (req, res) => {
     try {
-        console.log("Hello");
+        console.log("Hello budyyyyyyyyyyyy");
         
       // Extract the update data dynamically from req.body
       const data = req.body; // This will contain the key-value pairs you want to update
