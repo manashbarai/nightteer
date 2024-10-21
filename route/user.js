@@ -38,9 +38,7 @@ router.post("/signup", async (req, res) => {
 
 router.post("/createuser", async (req, res) => {
     const { name, email } = req.body;
-    console.log(name,email);
-    
-    const randomPassword = generateRandomPassword();    
+    const randomPassword = generateRandomPassword();
     try {
         const user = new User({ name, email, password: randomPassword, role: 2 });
         const saveUser = await user.save();
