@@ -12,7 +12,6 @@ app.use(cors())
 
 
 app.use("/api/user",require("./route/user"))
-app.use(express.static('public')); 
 app.get("/",async(req,res)=>{
     try {
         res.send("I am On")
