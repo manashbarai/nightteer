@@ -56,7 +56,7 @@ router.post("/createuser", async (req, res) => {
 
 router.put('/update/:id', async (req, res) => {
     try {
-        console.log("Hello budyyyyyyyyyyyy");
+        
         
       // Extract the update data dynamically from req.body
       const data = req.body; // This will contain the key-value pairs you want to update
@@ -108,36 +108,5 @@ router.get("/all", async (req, res) => {
 });
 
 
-
-router.post("/login", async (req, res) => {
-    const { email,password } = req.body;
-
-
-    const userExist=await User.findOne({'email':email})
-    if(!userExist) createError(400,"User not found")
-    if(userExist.role===2 && userExist.login_count===0){
-        const password_update_url=`${process.env.CLIENT_URL}update_password/${userExist._id}`
-        res.status(201).json({url:password_update_url});
-    }
-
-    const salt = await bcrypt.genSaltSync(12);
-    const hashPassword = await bcrypt.hashSync(password, salt);
-
-    try {
-
-        const user = new User({ name, email, password: hashPassword, role });
-        const saveUser = await user.save();
-        res.status(201).json(saveUser);
-    } catch (error) {
-        if (error.code === 11000 && error.keyPattern.email) {
-
-            return res.status(400).json({
-                message: `The email '${error.keyValue.email}' is already registered. Please use a different email.`,
-            });
-        }
-
-        return res.status(500).json({ message: "Internal server error" });
-    }
-});
 
 module.exports = router;

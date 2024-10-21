@@ -5,10 +5,15 @@
   "description": "Oli Lottery Backend",
   "author": "Your Name",
   "license": "ISC",
-  "keywords": ["lottery", "express", "node", "api"],
+  "keywords": [
+    "lottery",
+    "express",
+    "node",
+    "api"
+  ],
   "scripts": {
-    "start": "node index.js",     
-    "dev": "nodemon index.js",    
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
